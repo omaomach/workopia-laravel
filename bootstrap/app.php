@@ -12,8 +12,9 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->validateCsrfTokens(except: [
+            // Routes that should be excluded from CSRF validation
             '/submit',
-            '/test'
+            '/test',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

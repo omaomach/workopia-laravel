@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create New Job</title>
+    <title>Welcome To Workopia</title>
 </head>
 
 <body>
-    <h1>Create New Job</h1>
+    <h1>Welcome To Workopia</h1>
 </body>
 
 </html>
