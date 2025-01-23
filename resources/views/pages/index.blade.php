@@ -1,9 +1,3 @@
-@extends('layout')
-
-@section('title')
-    Welcome To Workopia
-@endsection
-
-@section('content')
+<x-layout>
     <h1>Welcome To Workopia</h1>
-@endsection
+</x-layout>
