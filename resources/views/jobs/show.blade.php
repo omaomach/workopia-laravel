@@ -1,5 +1,3 @@
-@extends('layout')
-
-@section('content')
+<x-layout>
     <h1>Show Job {{ $id }}</h1>
-@endsection
+</x-layout>
