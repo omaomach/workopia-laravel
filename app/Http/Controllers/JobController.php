@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use App\Models\Job;
 
 class JobController extends Controller
 {
@@ -12,12 +13,7 @@ class JobController extends Controller
      */
     public function index(): View
     {
-        $jobs = [
-            'Web Developer',
-            'Database Administrator',
-            'Software Engineer',
-            'Business Analyst',
-        ];
+        $jobs = Job::all();
 
         return view('jobs.index', compact('jobs'));
     }
@@ -43,7 +39,7 @@ class JobController extends Controller
      */
     public function show(string $id): string
     {
-        return "Showing job with ID: " . $id;
+        return 'Showing job with ID: ' . $id;
     }
 
     /**
@@ -51,7 +47,7 @@ class JobController extends Controller
      */
     public function edit(string $id): string
     {
-        return "Editing job with ID: " . $id;
+        return 'Editing job with ID: ' . $id;
     }
 
     /**
@@ -59,7 +55,7 @@ class JobController extends Controller
      */
     public function update(Request $request, string $id): string
     {
-        return "Updating job with ID: " . $id;
+        return 'Updating job with ID: ' . $id;
     }
 
     /**
@@ -67,7 +63,7 @@ class JobController extends Controller
      */
     public function destroy(string $id): string
     {
-        return "Deleting job with ID: " . $id;
+        return 'Deleting job with ID: ' . $id;
     }
 
     public function share(): string
