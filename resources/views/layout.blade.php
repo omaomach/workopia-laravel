@@ -9,6 +9,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     @vite('resources/css/app.css')
     <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <title>{{ $title ?? 'Workopia | Find and list jobs' }}</title>
 </head>
 
@@ -21,7 +22,7 @@
     <main class="container mx-auto p-4 mt-4">
         {{-- Display Alert Messages --}}
         @if (session('success'))
-            <x-alert type="success" message="{{ session('success') }}" />
+            <x-alert type="success" message="{{ session('success') }}" timeout="5000" />
         @endif
         @if (session('error'))
             <x-alert type="error" message="{{ session('error') }}" />
