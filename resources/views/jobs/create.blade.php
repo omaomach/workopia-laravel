@@ -4,7 +4,7 @@
         <h2 class="text-4xl text-center font-bold mb-4">
             Create Job Listing
         </h2>
-        <form method="POST" action="/jobs" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('jobs.store') }}" enctype="multipart/form-data">
             @csrf
             <h2 class="text-2xl font-bold mb-6 text-center text-gray-500">
                 Job Info
@@ -15,13 +15,7 @@
             <x-inputs.text-area id="description" name="description" label="Description"
                 placeholder="We are seeking a skilled and motivated Software Developer to join our growing development team..." />
 
-            <x-inputs.text id="Salary" name="Salary" label="Job Salary" type="number" placeholder="40000" />
-
-            <div class="mb-4">
-                <label class="block text-gray-700" for="requirements">Requirements</label>
-                <textarea id="requirements" name="requirements" class="w-full px-4 py-2 border rounded focus:outline-none"
-                    placeholder="Bachelor's degree in Computer Science"></textarea>
-            </div>
+            <x-inputs.text id="salary" name="salary" label="Job Salary" type="number" placeholder="40000" />
 
             <x-inputs.text-area id="requirements" name="requirements" label="Requirements"
                 placeholder="Bachelor's degree in Computer Science" />
@@ -32,7 +26,7 @@
             <x-inputs.text id="tags" name="tags" label="Tags (comma-separated)"
                 placeholder="Development, Coding, Java, Python" />
 
-            <x-inputs.select id="job-type" name="job-type" label="Job Type" value="{{ old('job_type') }}"
+            <x-inputs.select id="job_type" name="job_type" label="Job Type" value="{{ old('job_type') }}"
                 :options="[
                     'Full-Time' => 'Full-Time',
                     'Part-Time' => 'Part-Time',
@@ -42,14 +36,6 @@
                     'Volunteer' => 'Volunteer',
                     'On-Call' => 'On-Call',
                 ]" />
-
-            <div class="mb-4">
-                <label class="block text-gray-700" for="remote">Remote</label>
-                <select id="remote" name="remote" class="w-full px-4 py-2 border rounded focus:outline-none">
-                    <option value="false">No</option>
-                    <option value="true">Yes</option>
-                </select>
-            </div>
 
             <x-inputs.select id="remote" name="remote" label="Remote" :options="[
                 0 => 'No',
