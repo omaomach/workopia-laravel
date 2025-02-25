@@ -15,21 +15,24 @@ class JobController extends Controller
      */
     public function index(): View
     {
+        // $value = session()->get('test');
+        // dd($value);
+
+        // Show all job listings
+        // @route GET /jobs
         $jobs = Job::all();
         return view('jobs.index')->with('jobs', $jobs);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // Show create job form
+    // @route GET /jobs/create
     public function create(): View
     {
         return view('jobs.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Save job to database
+    // @route POST /jobs
     public function store(Request $request): RedirectResponse
     {
         $validatedData = $request->validate([
@@ -71,32 +74,24 @@ class JobController extends Controller
         return redirect()->route('jobs.index')->with('success', 'Job listing created successfully!');
     }
 
-    /**
-     * Display the specified resource.
-     */
+    // Display a single job listing
+    // @route GET /jobs/{$id}
     public function show(Job $job): View
     {
         return view('jobs.show')->with('job', $job);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    // Show edit job form
+    // @route GET /jobs/{$id}/edit
     public function edit(Job $job): View
     {
         return view('jobs.edit')->with('job', $job);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    /**
-     * Update the specified resource in storage.
-     */
+    // Update job listing
+    // @route PUT /jobs/{$id}
     public function update(Request $request, Job $job): RedirectResponse
     {
-        // Changed return type to RedirectResponse
-        // Changed return type to RedirectResponse
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
@@ -136,9 +131,8 @@ class JobController extends Controller
         return redirect()->route('jobs.index')->with('success', 'Job listing updated successfully!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    // Delete a job listing
+    // @route DELETE /job/{$id}
     public function destroy(Job $job): RedirectResponse
     {
         // Delete logo if it exists
