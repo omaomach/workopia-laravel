@@ -7,20 +7,21 @@ use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use App\Models\Job;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\JobResource;
 
 class JobController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): View
+    public function index(Request $request)
     {
-        // $value = session()->get('test');
-        // dd($value);
-
-        // Show all job listings
-        // @route GET /jobs
         $jobs = Job::all();
+
+        if ($request->header('Accept') === 'application/json') {
+            return JobResource::collection($jobs);
+        }
+
         return view('jobs.index')->with('jobs', $jobs);
     }
 
