@@ -3,7 +3,7 @@
         <h1 class="text-3xl font-semibold">
             <a href="{{ url('/') }}">Workopia</a>
         </h1>
-        <nav class="hidden md:flex items-center space-x-4">
+        <nav class="hidden md:flex items-center space-x-8">
             <x-nav-link url="/" :active="request()->is('/')">Home</x-nav-link>
             <x-nav-link url="/jobs" :active="request()->is('jobs')">All Jobs</x-nav-link>
             @auth
