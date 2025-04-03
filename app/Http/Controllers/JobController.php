@@ -18,7 +18,7 @@ class JobController extends Controller
      */
     public function index(Request $request)
     {
-        $jobs = Job::all();
+        $jobs = Job::paginate(6);
 
         if ($request->header('Accept') === 'application/json') {
             return JobResource::collection($jobs);
