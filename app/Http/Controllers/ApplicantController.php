@@ -28,6 +28,20 @@ class ApplicantController extends Controller
                 return redirect()->back()->withInput()->with('error', 'The resume file exceeds the server size limit of 2MB. Please upload a smaller file.');
             }
 
+            // Check if the user is the owner of the job
+            if ($job->user_id === auth()->id()) {
+                return redirect()->back()->with('error', 'You cannot apply to your own job listing');
+            }
+
+            // Check if the user has already applied
+            $existingApplication = Applicant::where('job_id', $job->id)
+                ->where('user_id', auth()->id())
+                ->exists();
+
+            if ($existingApplication) {
+                return redirect()->back()->with('error', 'You have already applied to this job');
+            }
+
             // First validate basic form fields
             $validatedData = $request->validate([
                 'full_name' => 'required|string',
@@ -126,26 +140,14 @@ class ApplicantController extends Controller
                 ->with('error', 'An unexpected error occurred: ' . $e->getMessage());
         }
     }
-}
 
-// private function getUploadErrorMessage($error)
-//     {
-//         switch ($error) {
-//             case UPLOAD_ERR_INI_SIZE:
-//                 return 'The uploaded file exceeds the maximum file size limit (check php.ini).';
-//             case UPLOAD_ERR_FORM_SIZE:
-//                 return 'The uploaded file exceeds the maximum file size limit specified in the form.';
-//             case UPLOAD_ERR_PARTIAL:
-//                 return 'The file was only partially uploaded.';
-//             case UPLOAD_ERR_NO_FILE:
-//                 return 'No file was uploaded.';
-//             case UPLOAD_ERR_NO_TMP_DIR:
-//                 return 'Missing a temporary folder.';
-//             case UPLOAD_ERR_CANT_WRITE:
-//                 return 'Failed to write file to disk.';
-//             case UPLOAD_ERR_EXTENSION:
-//                 return 'A PHP extension stopped the file upload.';
-//             default:
-//                 return 'Unknown upload error.';
-//         }
-//     }
+    // @desc Delete job applicant
+    // @route DELETE /applicants/{applicant}
+
+    public function destroy($id): RedirectResponse
+    {
+        $applicant = Applicant::findOrfail($id);
+        $applicant->delete();
+        return redirect()->route('dashboard')->with('success', 'Applicant deleted successfully!');
+    }
+}
