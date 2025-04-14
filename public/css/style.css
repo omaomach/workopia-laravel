@@ -13,3 +13,14 @@
 }
 
 [x-cloak] { display: none !important; }
+
+#map {
+    height: 400px; /* Fixed height instead of percentage */
+    width: 100%;
+    z-index: 1;
+}
+
+#applicant-form {
+    position: relative;
+    z-index: 2; /* Ensure the form is above the map */
+}

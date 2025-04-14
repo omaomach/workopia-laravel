@@ -79,7 +79,7 @@
                         and attach your resume.
                     </p>
 
-                    <div x-data="{ open: false }">
+                    <div x-data="{ open: false }" id="applicant-form">
                         <button @click="open = true"
                             class="block w-full text-center px-5 py-2.5 shadow-sm rounded border text-base font-medium cursor-pointer text-indigo-700 bg-indigo-100 hover:bg-indigo-200">
                             Apply Now
@@ -171,3 +171,68 @@
 
     </div>
 </x-layout>
+
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css" rel="stylesheet" />
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Make sure map div has height
+        document.getElementById('map').style.height = '400px';
+
+        // Your Mapbox access token - use the correct env variable name
+        mapboxgl.accessToken = "{{ env('MAP_API_KEY') }}";
+
+        // Initialize the map
+        const map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [-98.5795, 39.8283], // Center of US as default
+            zoom: 3
+        });
+
+        // Get address from Laravel view
+        const city = '{{ $job->city }}';
+        const state = '{{ $job->state }}';
+        const address = city + ', ' + state;
+
+        console.log('Looking up location:', address);
+
+        // Geocode the address
+        fetch(`/geocode?address=${encodeURIComponent(address)}`)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error ${response.status}`);
+                }
+                return response.json();
+            })
+            .then((data) => {
+                console.log('Geocoding response:', data);
+
+                if (data.features && data.features.length > 0) {
+                    const [longitude, latitude] = data.features[0].center;
+
+                    // Center the map and add a marker
+                    map.flyTo({
+                        center: [longitude, latitude],
+                        zoom: 12
+                    });
+
+                    // Add marker with popup
+                    new mapboxgl.Marker({
+                            color: "#e03131"
+                        })
+                        .setLngLat([longitude, latitude])
+                        .setPopup(new mapboxgl.Popup({
+                                offset: 25
+                            })
+                            .setHTML(`<strong>${address}</strong><p>Job Location</p>`))
+                        .addTo(map);
+
+                    console.log('Map centered at:', longitude, latitude);
+                } else {
+                    console.error('No results found for the address.');
+                }
+            })
+            .catch((error) => console.error('Error geocoding address:', error));
+    });
+</script>
