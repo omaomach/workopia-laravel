@@ -20,13 +20,13 @@ class ProfileController extends Controller
         // Validate data
         $validatedData = $request->validate([
             'name' => 'required|string',
-            'email' => 'required|string|email',
+            'email' => 'required|string|email|unique:users,email,' . $user->id,
             'avatar' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:2048',
         ]);
 
         // Get user name and email
         $user->name = $request->input('name');
-        $user->name = $request->input('email');
+        $user->email = $request->input('email');
 
         // Handle avatar upload
         if ($request->hasFile('avatar')) {

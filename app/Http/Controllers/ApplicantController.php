@@ -8,6 +8,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use App\Mail\JobApplied;
+use Illuminate\Support\Facades\Mail;
 
 class ApplicantController extends Controller
 {
@@ -121,6 +123,9 @@ class ApplicantController extends Controller
 
                 $application->save();
                 \Log::info('Application saved successfully', ['id' => $application->id]);
+
+                // Send email notification to job owner
+                Mail::to($job->user->email)->send(new JobApplied($application));
 
                 return redirect()->back()->with('success', 'Your application has been submitted');
             } catch (\Exception $e) {
