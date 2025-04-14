@@ -125,7 +125,7 @@ class ApplicantController extends Controller
                 \Log::info('Application saved successfully', ['id' => $application->id]);
 
                 // Send email notification to job owner
-                Mail::to($job->user->email)->send(new JobApplied($application));
+                Mail::to($job->user->email)->send(new JobApplied($application, $job));
 
                 return redirect()->back()->with('success', 'Your application has been submitted');
             } catch (\Exception $e) {
